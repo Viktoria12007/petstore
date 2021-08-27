@@ -17,6 +17,8 @@
               <p class="price">
                   {{product.price}}
               </p>
+              <button @click="edit">Edit Product</button>
+            <router-view></router-view>
           </div>
       </div>
   </div>
@@ -35,7 +37,9 @@ export default {
   },
   props: {},
   methods: {
-
+   edit() {
+     this.$router.push({name: 'Edit'})
+   }
   },
   created() {
     return axios('http://localhost:3000/products', {
