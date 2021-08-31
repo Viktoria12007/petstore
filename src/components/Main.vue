@@ -3,7 +3,7 @@
   <my-header :cartItemCount="cartItemCount"></my-header>
   <main>
     <div 
-    v-for="product in products"
+    v-for="product in PRODUCTS"
     :key="product.id"
     >
       <div class="row">
@@ -60,19 +60,21 @@
 </template>
 
 <script>
-import axios from 'axios';
 import MyHeader from './Header.vue';
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
   name: 'imain',
   data() {
     return {
-      products: {},
       cart: []
     };
   },
   components: { MyHeader },
   methods: {
+    ...mapActions([
+      'INIT_STORE'
+    ]),
     checkRating(n, myProduct) {
       return myProduct.rating - n >= 0;
     },
@@ -97,25 +99,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'PRODUCTS'
+    ]),
     cartItemCount() {
       return this.cart.length || '';
-    },
-    // compare(a, b) {
-    //       if (a.title.toLowerCase() < b.title.toLowerCase())
-    //         return -1;
-    //       if (a.title.toLowerCase() > b.title.toLowerCase())
-    //         return 1;
-    //       return 0;
-    //     },
-    // sortedProducts() {
-    //   if (this.products.length > 0) {
-    //     let productsArray = this.products.slice(0);
-    //     return productsArray.sort(this.compare);
-    //   }
-    //   else {
-    //     return this.products
-    //   }
-    // }
+    }
   },
   filters: {
     formatPrice(price) {
@@ -137,24 +126,7 @@ export default {
     }
   },
   created() {
-    return axios('http://localhost:3000/products', {
-           method: "GET"
-        })
-    .then(response => {
-      this.products = response.data;
-      console.log(this.products);
-    })
-    // .then(() => {
-    //   if (this.products.length > 0) {
-    //     let productsArray = this.products.slice(0);
-    //     console.log(productsArray[0].title);
-    //     return this.products = productsArray.sort(this.compare);
-    //     // return productsArray;
-    //   }
-    //   else {
-    //     return this.products
-    //   }
-    // })
+   this.INIT_STORE();
   }
 }
 </script>
