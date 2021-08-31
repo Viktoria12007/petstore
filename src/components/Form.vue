@@ -133,14 +133,14 @@ export default {
         gift:'',
         sendGift: 'Send As A Gift',
         dontSendGift: 'Do Not Send As A Gift'
-      }
- 
+      },
+      madeOrder: false
     }
   },
   components: { MyHeader },
   methods: {
     submitForm() {
-      alert('Submitted');
+      this.madeOrder = true;
     }
   }
 }
